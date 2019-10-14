@@ -1,76 +1,99 @@
-[![CircleCI](https://circleci.com/gh/rocker-org/rocker-versioned.svg?style=svg)](https://circleci.com/gh/rocker-org/rocker-versioned)
-[![license](https://img.shields.io/badge/license-GPLv2-blue.svg)](https://opensource.org/licenses/GPL-2.0)
-[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
-[![DOI](https://zenodo.org/badge/25048007.svg)](https://zenodo.org/badge/latestdoi/25048007)
+# Using the rocker/rstudio container
+
+## Quickstart
+
+    docker run --rm -p 8787:8787 -e PASSWORD=yourpasswordhere rocker/rstudio
+
+Visit `localhost:8787` in your browser and log in with username `rstudio` and the password you set. **NB: Setting a password is now REQUIRED.**  Container will error otherwise.
 
 
-Visit [rocker-project.org](https://rocker-project.org) for more about available Rocker images, configuration, and use. 
+Note that all commands documented here work in just the same way with any container derived from `rocker/rstudio`,
+such as `rocker/tidyverse`.  
+
+## Common configuration options:
 
 
-## Version-stable Rocker images
+### Use different versions of R
 
-![rocker](https://avatars0.githubusercontent.com/u/9100160?v=3&s=200)
+    docker run -d -p 8787:8787 -e PASSWORD=yourpasswordhere rocker/rstudio:devel
 
+    docker run -d -p 8787:8787 -e PASSWORD=yourpasswordhere rocker/rstudio:3.2.0
 
-image            | description                               | size   | metrics | build status 
----------------- | ----------------------------------------- | ------ | ------- | --------------
-[r-ver](https://hub.docker.com/r/rocker/r-ver)            |  Version-stable base R & src build tools  | [![](https://images.microbadger.com/badges/image/rocker/r-ver.svg)](https://microbadger.com/images/rocker/r-ver) | [![](https://img.shields.io/docker/pulls/rocker/r-ver.svg)](https://hub.docker.com/r/rocker/r-ver) |  [![](https://img.shields.io/docker/automated/rocker/r-ver.svg)](https://hub.docker.com/r/rocker/r-ver/builds)
-[rstudio](https://hub.docker.com/r/rocker/rstudio)          |  Adds rstudio                             | [![](https://images.microbadger.com/badges/image/rocker/rstudio-stable.svg)](https://microbadger.com/) | [![](https://img.shields.io/docker/pulls/rocker/rstudio.svg)](https://hub.docker.com/r/rocker/rstudio)  |  [![](https://img.shields.io/docker/automated/rocker/rstudio.svg)](https://hub.docker.com/r/rocker/rstudio/builds)
-[tidyverse](https://hub.docker.com/r/rocker/tidyverse)        |  Adds tidyverse & devtools                | [![](https://images.microbadger.com/badges/image/rocker/tidyverse.svg)](https://microbadger.com/images/rocker/tidyverse) | [![](https://img.shields.io/docker/pulls/rocker/tidyverse.svg)](https://hub.docker.com/r/rocker/tidyverse) |  [![](https://img.shields.io/docker/automated/rocker/tidyverse.svg)](https://hub.docker.com/r/rocker/tidyverse/builds) 
-[verse](https://hub.docker.com/r/rocker/verse)            |  Adds tex & publishing-related packages   | [![](https://images.microbadger.com/badges/image/rocker/verse.svg)](https://microbadger.com/images/rocker/verse) | [![](https://img.shields.io/docker/pulls/rocker/verse.svg)](https://hub.docker.com/r/rocker/verse) | [![](https://img.shields.io/docker/automated/rocker/verse.svg)](https://hub.docker.com/r/rocker/verse/builds)
+See [rocker/r-ver](https://github.com/rocker-org/rocker-versioned) for details.
 
 
-[rocker/geospatial](https://github.com/rocker-org/geospatial), 
-[rocker/binder](https://github.com/rocker-org/binder) and
-[rocker/shiny](https://github.com/rocker-org/shiny) are also build on this
-stack, following the same versioning rules as described here.  
+### Give the user root permissions (add to sudoers)
 
-This repository provides alternate stack to `r-base`, with an emphasis on reproducibility.  Compared to those images, this stack:
+    docker run -d -p 8787:8787 -e ROOT=TRUE -e PASSWORD=yourpasswordhere rocker/rstudio
 
-- builds on debian stable (`debian:jessie` for versions < 3.4.0, `debian:stretch` after, etc) release instead of `debian:testing`, so no more apt-get breaking when `debian:testing` repos are updated and you had to muck with `-t unstable` to get apt-get to work.  
-- Further, this stack installs a fixed version of R itself from source, rather than whatever is already packaged for Debian (the r-base stack gets the latest R version as a binary from debian:unstable), 
-- and it installs all R packages from a fixed snapshot of CRAN at a given date (MRAN repos).
-- provides images that are generally smaller than the r-base series
+Link a local volume (in this example, the current working directory, `$(pwd)`) to the rstudio container:
 
-Users should include the version tag, e.g. `rocker/verse:3.3.1` when reproduciblity is paramount, and use the default `latest` tag, e.g. `rocker/verse` for the most up-to-date R packages.  All images still receive any Debian security patch updates.  Note that any debian packages on these images (C libraries, compilers, etc) will likely be older/earlier versions than those found on the `r-base` image series.
+    docker run -d -p 8787:8787 -v $(pwd):/home/rstudio -e PASSWORD=yourpasswordhere rocker/rstudio
 
-### NOTES
+### Bypassing the authentication step
 
-- **do not use `apt-get install r-cran-*` to install R packages on this stack**. The requested R version and all R packages are installed from source in the version-stable stack.  Installing R packages from `apt` (e.g. the `r-cran-*` packages) will install the version of R and versions of the packages that were built for the stable debian release (e.g. `debian:stretch`), giving you a second version of R and different packages.  Please install R packages from source using the `install.packages()` R function (or the `install2.r` script), and use `apt` only to install necessary system libraries (e.g. `libxml2`). If you would prefer to install only the latest verions of packages from pre-built binaries using `apt-get`, consider using the `r-base` stack instead.  
+**Warning: use only in a secure environment**.  Do not use this approach on an
+AWS or other cloud machine with a publicly accessible IP address. 
 
-### Version Tags
+Simply set the environmental variable `DISABLE_AUTH=true`, e.g.
 
-Using the R version tag will naturally lock the R version, and also lock the install date of any R packages on the image.  For example,  `rocker/tidyverse:3.3.1` Docker image will always rebuild with R 3.3.1 and R packages installed from the **2016-10-31** MRAN snapshot, corresponding to **the last day that version of R was the most recent release**.  Meanwhile `rocker/tidyverse:latest` will always have both the latest R version and latest versions of the R packages, built nightly.   
+```
+docker run --rm \
+  -p 127.0.0.1:8787:8787 \
+  -e DISABLE_AUTH=true \
+  rocker/rstudio
+```
 
-See [VERSIONS.md](https://github.com/rocker-org/rocker-versioned/tree/master/VERSIONS.md) for details
-
-### Images
-
-The image `rocker/r-ver` is the functional equivalent of `r-base`, though slightly pared down.  Currently `r-ver` has tags for all minor R versions back to `3.1.0` (as far back as MRAN snapshots of CRAN are avialable); see [all tags](https://hub.docker.com/r/rocker/r-ver/tags). Users can attempt to build other versions from the `r-ver` Dockerfile by specifying `--build-arg R_VERSION=<VERSION>`, though this is unlikely to work with very old R versions.  Likewise, all non-current images are automatically pinned to a MRAN snapshot of CRAN from the last day that version was current.  Users can set a custom snapshot date for the `r-ver` images by using `--build-arg BUILD_DATE=<DATE>` when building that Dockerfile. 
-
-The `rocker/rstudio` image builds with the latest version of RStudio by default. This can be customized by specifying the desired version in `--build-arg RSTUDIO_VERSION=<VERSION>` if building locally from its Dockerfile.
+Navigate to <http://localhost:8787> and you should be logged into RStudio as
+the `rstudio` user without needing a password.
 
 
-## RStudio and Runtime Options
+### Add shiny server on start up with `e ADD=shiny`
 
-See the [RStudio README](https://github.com/rocker-org/rocker-versioned/blob/master/rstudio/README.md) for documentation on setting passwords, sharing volumes, adding RStudio Shiny Server(TM), and other configuration.
+    docker run -d -p 3838:3838 -p 8787:8787 -e ADD=shiny -e PASSWORD=yourpasswordhere rocker/rstudio
 
-
-## Maintenance and Updates
-
-These images are actively maintained.  This means that while an effort is made to preserve the general function of these images over time, both these Dockerfiles and the resulting images are subject to some change over time.  In particular:
-
-- Images are regularly re-built on Docker Hub whenever their base image changes, starting with changes to `debian` Docker image.  This is the rough equivalent of running `apt-get upgrade` on `debian`, since all `apt-get` commands are re-run and will pull in the most current sources.  This allows the images to receive security updates to any packages installed from the `debian` repositories, but will not in general change the versions of any software and is very unlikely to break anything.
-
-- The Dockerfiles themselves are subject to change, to improve performance, ease of use, readability, or other concerns raised in the issues.  These changes should also not alter the general behavior of R or R packages on the image.  These changes can be seen in the git history.  The [rocker-versioned](https://github.com/rocker-org/rocker-versioned) repo will use its own semantic version tagging to indicate changes to this repository, with snapshots from these tags archived on Zenodo.
+shiny server is now running on `localhost:3838` and RStudio on `localhost:8787`.  
 
 
-## License ##
+Note: this triggers shiny install at runtime, which may require a few minutes to execute before services come up.
+If you are building your own Dockerfiles on top of this stack, you should simply include the RUN command:
 
-The Dockerfiles in this repository are licensed under the GPL 2 or later.
+    RUN export ADD=shiny && bash /etc/cont-init.d/add
 
-## Trademarks ##
+Then omit the `-e ADD=shiny` when running your image and shiny should be installed and waiting on port 3838.
 
-RStudio is a registered trademark of RStudio, Inc.  The use of the trademarked term RStudio and the distribution of the RStudio binaries through the images hosted on [hub.docker.com](https://registry.hub.docker.com/) has been granted by explicit permission of RStudio.  Please review [RStudio's trademark use policy](http://www.rstudio.com/about/trademark/) and address inquiries about further distribution or other questions to [permissions@rstudio.com](mailto:permissions@rstudio.com).
+**Note**: Please see the `rocker/shiny` and `rocker/shiny-verse` images for
+setting up a shiny server in a separate container from RStudio. 
+
+
+#### Access a root shell for a running `rstudio` container instance
+
+First, determine the name or id of your container (unless you provided a `--name` to `docker run`) using `docker ps`.  You need just enough of the hash id to be unique, e.g. the first 3 letters/numbers.  Then exec into the container for an interactive session:
+
+    docker exec -ti <CONTAINER_ID> bash
+
+You can now perform maintenance operations requiring root behavior such as `apt-get`, adding/removing users, etc.  
+
+Or, simply enable root as shown above and use the RStudio bash terminal.
+
+
+## Additional configuration options
+
+- Custom user name: `-e USER=<CUSTOM_NAME>`
+- Custom user id, group id, UMASK: `-e USERID=<UID>`, `-e GROUPID=<GID>`, `e UMASK=022`
+
+
+Custom uid/gid etc is usually only needed when sharing a local volume for a user/group whose id does not match the default (`1000`:`1000`).  Failing to do this could make files change permissions on the linked volume when accessed from RStudio. 
+
+
+Adding additional users:  From a root bash shell (see above), the usual debian linux commands can be used to create new users and passwords, e.g. 
+
+## Developers / Dockerfile authors
+
+The RStudio images use the `s6-init` system to run multiple/persistant jobs.  While init systems like supervisord are better known, `s6` is powerful, lightweight, easy to use, and plays nicely with docker (e.g. avoiding the pid 1 / zombie problem).  See [s6-overlay](https://github.com/just-containers/s6-overlay) for details if you need to add additional services (such as an sshd server) or custom start-up, shut down, or logging scripts.  
+
+## More help
+
+See the Wiki for additional documentation and use cases: <https://github.com/rocker-org/rocker/wiki>
 
 
