@@ -37,6 +37,9 @@ RUN apt-get update \
     curl \
     gnupg \
     unixodbc-dev \
+    unixodbc \
+    odbc-postgresql \
+    libsqliteodbc \
   && if [ -z "$RSTUDIO_VERSION" ]; then RSTUDIO_URL="https://www.rstudio.org/download/latest/stable/server/debian9_64/rstudio-server-latest-amd64.deb"; else RSTUDIO_URL="http://download2.rstudio.org/server/debian9/x86_64/rstudio-server-${RSTUDIO_VERSION}-amd64.deb"; fi \
   && wget -q $RSTUDIO_URL \
   && dpkg -i rstudio-server-*-amd64.deb \
@@ -99,8 +102,10 @@ RUN apt-get update \
  && install2.r odbc \
 
 ## Install R packages
-RUN R -e 'install.packages(c("plumber", "jsonlite", "dplyr", "stringr", "fortunes", "sp", "gstat", "knitr", "Rcpp", "magrittr", "units", "lattice", "rjson", "FNN", "udunits2", "stringr", "xts", "DBI", "lambda.r", "futile.logger", "htmltools", "intervals", "yaml", "rprojroot", "digest", "sf", "futile.options", "evaluate", "rmarkdown", "stringi", "backports", "spacetime", "zoo", "bookdown", "blogdown","DBI", "odbc","RMySQL", "RPostgresSQL", "RSQLite","RSQLServer","xlsx","ggvis","htmlwidgets","ggmap","quantmod","parallel"))'
-
+RUN R -e 'install.packages(c("plumber", "jsonlite","here", "dplyr", "stringr","readr","sqldf","tseries","forecast","randomForest","tree","plotly" "fortunes", "sp", "gstat", "knitr", "Rcpp", "magrittr", "units", "lattice", "rjson", "FNN", "udunits2", "stringr", "xts", "DBI", "lambda.r", "futile.logger", "htmltools", "intervals", "yaml", "rprojroot", "digest", "sf", "futile.options", "evaluate", "rmarkdown", "stringi", "backports", "spacetime", "zoo", "bookdown", "blogdown","DBI", "odbc","RMySQL", "RPostgresSQL", "RSQLite","RSQLServer","xlsx","ggvis","htmlwidgets","ggmap","quantmod","parallel","reticulate","devtools","packrat"))'
+# For deploying apps from a container
+RUN R -e "devtools::install_github('rstudio/rsconnect')"
+RUN R -e "devtools::install_github('aaron2012r2/cosmosR')"
 
 
 COPY userconf.sh /etc/cont-init.d/userconf
