@@ -34,6 +34,7 @@ RUN apt-get update \
     libllvm3.8 \
     libobjc4 \
     libgc1c2 \
+    libz-dev \
     curl \
     gnupg \
     unixodbc-dev \
@@ -41,6 +42,7 @@ RUN apt-get update \
     odbc-postgresql \
     libsqliteodbc \
     tdsodbc \
+    openjdk-8-jdk \
   && if [ -z "$RSTUDIO_VERSION" ]; then RSTUDIO_URL="https://www.rstudio.org/download/latest/stable/server/debian9_64/rstudio-server-latest-amd64.deb"; else RSTUDIO_URL="http://download2.rstudio.org/server/debian9/x86_64/rstudio-server-${RSTUDIO_VERSION}-amd64.deb"; fi \
   && wget -q $RSTUDIO_URL \
   && dpkg -i rstudio-server-*-amd64.deb \
