@@ -101,8 +101,6 @@ RUN apt-get update \
   
 ## Install R packages
 RUN R -e 'install.packages(c("plumber", "jsonlite","here", "dplyr", "stringr","readr","sqldf","tseries","forecast","randomForest","tree","plotly", "fortunes", "sp", "gstat", "knitr", "Rcpp", "magrittr", "units", "lattice", "rjson", "FNN", "udunits2", "stringr", "xts", "DBI", "lambda.r", "futile.logger", "htmltools", "intervals", "yaml", "rprojroot", "digest", "sf", "futile.options", "evaluate", "rmarkdown", "stringi", "backports", "spacetime", "zoo", "bookdown", "blogdown","DBI", "odbc","RMySQL", "RPostgresSQL", "RSQLite","RSQLServer","xlsx","ggvis","htmlwidgets","ggmap","quantmod","parallel","reticulate","devtools","packrat","rstudioapi","miniUI","flexdashboard","rsconnect"))'
-RUN R -e "devtools::install_github('aaron2012r2/cosmosR')"
-
 
 COPY userconf.sh /etc/cont-init.d/userconf
 
