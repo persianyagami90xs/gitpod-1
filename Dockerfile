@@ -108,8 +108,15 @@ COPY userconf.sh /etc/cont-init.d/userconf
 COPY add_shiny.sh /etc/cont-init.d/add
 COPY disable_auth_rserver.conf /etc/rstudio/disable_auth_rserver.conf
 COPY pam-helper.sh /usr/lib/rstudio-server/bin/pam-helper
+EXPOSE 8787
+## automatically link a shared volume for kitematic users
+VOLUME /home/rstudio/kitematic
+
+USER root
 RUN mkdir /home/gitpod/.conda
 
+
+# Install util tools.
 # Install conda
 RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh && \
     /bin/bash ~/miniconda.sh -b -p /opt/conda && \
@@ -122,10 +129,6 @@ RUN chown -R gitpod:gitpod /opt/conda \
     && chmod -R 777 /opt/conda \
     && chown -R gitpod:gitpod /home/gitpod/.conda \
     && chmod -R 777 /home/gitpod/.conda
-    
-EXPOSE 8787
 
-## automatically link a shared volume for kitematic users
-VOLUME /home/rstudio/kitematic
 
 CMD ["/init"]
