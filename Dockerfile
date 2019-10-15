@@ -89,6 +89,11 @@ RUN apt-get update \
           \nsaveAction="0"' \
           > /home/rstudio/.rstudio/monitored/user-settings/user-settings \
   && chown -R rstudio:rstudio /home/rstudio/.rstudio
+  
+## Install R packages  
+RUN R -e 'install.packages(c("plumber", "jsonlite", "dplyr", "stringr", "fortunes", "sp", "gstat", "knitr", "Rcpp", "magrittr", "units", "lattice", "rjson", "FNN", "udunits2", "stringr", "xts", "DBI", "lambda.r", "futile.logger", "htmltools", "intervals", "yaml", "rprojroot", "digest", "sf", "futile.options", "evaluate", "rmarkdown", "stringi", "backports", "spacetime", "zoo", "bookdown", "blogdown","DBI", "odbc","RMySQL", "RPostgresSQL", "RSQLite","xlsx","ggvis","htmlwidgets","ggmap","quantmod","parallel"))'
+
+
 
 COPY userconf.sh /etc/cont-init.d/userconf
 
