@@ -113,8 +113,7 @@ EXPOSE 8787
 VOLUME /home/rstudio/kitematic
 
 USER root
-RUN mkdir /home/gitpod/.conda
-
+RUN mkdir /home/rstudio/.conda
 
 # Install util tools.
 # Install conda
@@ -127,8 +126,8 @@ RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86
 
 RUN chown -R gitpod:gitpod /opt/conda \
     && chmod -R 777 /opt/conda \
-    && chown -R gitpod:gitpod /home/gitpod/.conda \
-    && chmod -R 777 /home/gitpod/.conda
+    && chown -R gitpod:gitpod /home/rstudio/.conda \
+    && chmod -R 777 /home/rstudio/.conda
 
 
 CMD ["/init"]
