@@ -102,7 +102,7 @@ RUN apt-get update \
  && install2.r odbc \
 
 ## Install R packages
-RUN R -e 'install.packages(c("plumber", "jsonlite","here", "dplyr", "stringr","readr","sqldf","tseries","forecast","randomForest","tree","plotly" "fortunes", "sp", "gstat", "knitr", "Rcpp", "magrittr", "units", "lattice", "rjson", "FNN", "udunits2", "stringr", "xts", "DBI", "lambda.r", "futile.logger", "htmltools", "intervals", "yaml", "rprojroot", "digest", "sf", "futile.options", "evaluate", "rmarkdown", "stringi", "backports", "spacetime", "zoo", "bookdown", "blogdown","DBI", "odbc","RMySQL", "RPostgresSQL", "RSQLite","RSQLServer","xlsx","ggvis","htmlwidgets","ggmap","quantmod","parallel","reticulate","devtools","packrat"))'
+RUN R -e 'install.packages(c("plumber", "jsonlite","here", "dplyr", "stringr","readr","sqldf","tseries","forecast","randomForest","tree","plotly" "fortunes", "sp", "gstat", "knitr", "Rcpp", "magrittr", "units", "lattice", "rjson", "FNN", "udunits2", "stringr", "xts", "DBI", "lambda.r", "futile.logger", "htmltools", "intervals", "yaml", "rprojroot", "digest", "sf", "futile.options", "evaluate", "rmarkdown", "stringi", "backports", "spacetime", "zoo", "bookdown", "blogdown","DBI", "odbc","RMySQL", "RPostgresSQL", "RSQLite","RSQLServer","xlsx","ggvis","htmlwidgets","ggmap","quantmod","parallel","reticulate","devtools","packrat","rstudioapi","miniUI"))'
 # For deploying apps from a container
 RUN R -e "devtools::install_github('rstudio/rsconnect')"
 RUN R -e "devtools::install_github('aaron2012r2/cosmosR')"
