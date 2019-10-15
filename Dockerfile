@@ -24,6 +24,7 @@ RUN apt-get update \
     psmisc \
     procps \
     python-setuptools \
+    python \
     sudo \
     wget \
     libclang-dev \
@@ -112,7 +113,6 @@ EXPOSE 8787
 ## automatically link a shared volume for kitematic users
 VOLUME /home/rstudio/kitematic
 
-USER root
 RUN mkdir /home/rstudio/.conda
 
 # Install util tools.
@@ -124,9 +124,9 @@ RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86
     echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \
     echo "conda activate base" >> ~/.bashrc
 
-RUN chown -R gitpod:gitpod /opt/conda \
+RUN chown -R rstudio:rstudio /opt/conda \
     && chmod -R 777 /opt/conda \
-    && chown -R gitpod:gitpod /home/rstudio/.conda \
+    && chown -R rstudio:rstudio /home/rstudio/.conda \
     && chmod -R 777 /home/rstudio/.conda
 
 
