@@ -34,6 +34,9 @@ RUN apt-get update \
     libllvm3.8 \
     libobjc4 \
     libgc1c2 \
+    curl \
+    gnupg \
+    unixodbc-dev \
   && if [ -z "$RSTUDIO_VERSION" ]; then RSTUDIO_URL="https://www.rstudio.org/download/latest/stable/server/debian9_64/rstudio-server-latest-amd64.deb"; else RSTUDIO_URL="http://download2.rstudio.org/server/debian9/x86_64/rstudio-server-${RSTUDIO_VERSION}-amd64.deb"; fi \
   && wget -q $RSTUDIO_URL \
   && dpkg -i rstudio-server-*-amd64.deb \
@@ -89,9 +92,14 @@ RUN apt-get update \
           \nsaveAction="0"' \
           > /home/rstudio/.rstudio/monitored/user-settings/user-settings \
   && chown -R rstudio:rstudio /home/rstudio/.rstudio
-  
-## Install R packages  
-RUN R -e 'install.packages(c("plumber", "jsonlite", "dplyr", "stringr", "fortunes", "sp", "gstat", "knitr", "Rcpp", "magrittr", "units", "lattice", "rjson", "FNN", "udunits2", "stringr", "xts", "DBI", "lambda.r", "futile.logger", "htmltools", "intervals", "yaml", "rprojroot", "digest", "sf", "futile.options", "evaluate", "rmarkdown", "stringi", "backports", "spacetime", "zoo", "bookdown", "blogdown","DBI", "odbc","RMySQL", "RPostgresSQL", "RSQLite","xlsx","ggvis","htmlwidgets","ggmap","quantmod","parallel"))'
+ && curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
+ && curl https://packages.microsoft.com/config/debian/9/prod.list > /etc/apt/sources.list.d/mssql-release.list \
+ && apt-get update \
+ && ACCEPT_EULA=Y apt-get install --yes --no-install-recommends msodbcsql17 \
+ && install2.r odbc \
+
+## Install R packages
+RUN R -e 'install.packages(c("plumber", "jsonlite", "dplyr", "stringr", "fortunes", "sp", "gstat", "knitr", "Rcpp", "magrittr", "units", "lattice", "rjson", "FNN", "udunits2", "stringr", "xts", "DBI", "lambda.r", "futile.logger", "htmltools", "intervals", "yaml", "rprojroot", "digest", "sf", "futile.options", "evaluate", "rmarkdown", "stringi", "backports", "spacetime", "zoo", "bookdown", "blogdown","DBI", "odbc","RMySQL", "RPostgresSQL", "RSQLite","RSQLServer","xlsx","ggvis","htmlwidgets","ggmap","quantmod","parallel"))'
 
 
 
