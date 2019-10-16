@@ -98,10 +98,11 @@ RUN apt-get update \
           \nloadRData="0" \
           \nsaveAction="0"' \
           > /home/rstudio/.rstudio/monitored/user-settings/user-settings \
-  && chown -R rstudio:rstudio /home/rstudio/.rstudio 
-  
+  && chown -R rstudio:rstudio /home/rstudio/.rstudio
+
+
 ## Install R packages
-RUN R -e 'install.packages(c("plumber", "jsonlite","here", "dplyr", "stringr","readr","sqldf","tseries","forecast","randomForest","tree","plotly", "fortunes", "sp", "gstat", "knitr", "Rcpp", "magrittr", "units", "lattice", "rjson", "FNN", "udunits2", "stringr", "xts", "DBI", "lambda.r", "futile.logger", "htmltools", "intervals", "yaml", "rprojroot", "digest", "sf", "futile.options", "evaluate", "rmarkdown", "stringi", "backports", "spacetime", "zoo", "bookdown", "blogdown","DBI", "odbc","RMySQL", "RPostgresSQL", "RSQLite","RSQLServer","xlsx","ggvis","htmlwidgets","ggmap","quantmod","parallel","reticulate","devtools","packrat","rstudioapi","miniUI","flexdashboard","rsconnect"))'
+RUN R -e 'install.packages(c("plumber", "jsonlite","here", "dplyr", "stringr","readr","sqldf","tseries","forecast","randomForest","tree","plotly", "fortunes", "sp", "gstat", "knitr", "Rcpp", "magrittr", "units", "lattice", "rjson", "FNN", "udunits2", "stringr", "xts", "DBI", "lambda.r", "futile.logger", "htmltools", "intervals", "yaml", "rprojroot", "digest", "sf", "futile.options", "evaluate", "rmarkdown", "stringi", "backports", "spacetime", "zoo", "bookdown", "blogdown","DBI", "odbc","RMySQL", "RPostgresSQL", "RSQLite","RSQLServer","xlsx","ggvis","htmlwidgets","ggmap","quantmod","parallel","reticulate","devtools","packrat","rstudioapi","miniUI","flexdashboard","rsconnect","png"))'
 
 COPY userconf.sh /etc/cont-init.d/userconf
 
@@ -129,5 +130,9 @@ RUN chown -R rstudio:rstudio /opt/conda \
     && chown -R rstudio:rstudio /home/rstudio/.conda \
     && chmod -R 777 /home/rstudio/.conda
 
+RUN chown -R rstudio:rstudio /usr/local/lib/R/site-library \
+    && chmod -R 777 /usr/local/lib/R/site-library \
+    && chown -R rstudio:rstudio /usr/local/lib/R/site-library \
+    && chmod -R 777 /usr/local/lib/R/site-library
 
 CMD ["/init"]
