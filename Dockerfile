@@ -142,10 +142,10 @@ RUN curl https://packages.microsoft.com/config/ubuntu/18.04/prod.list > /etc/apt
 RUN apt-get update && ACCEPT_EULA=Y apt-get install -y msodbcsql17 unixodbc-dev
 
 # optional: for bcp and sqlcmd
-sudo ACCEPT_EULA=Y apt-get install mssql-tools
-echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bash_profile
-echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
-source ~/.bashrc
+RUN ACCEPT_EULA=Y apt-get install mssql-tools
+RUN echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bash_profile
+RUN echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
+RUN source ~/.bashrc
 
 # install SQL Server tools
 RUN apt-get update && ACCEPT_EULA=Y apt-get install -y mssql-tools
