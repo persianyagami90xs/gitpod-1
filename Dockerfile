@@ -117,7 +117,8 @@ RUN apt-get update \
           \nsaveAction="0"' \
           > /home/rstudio/.rstudio/monitored/user-settings/user-settings \
   && chown -R rstudio:rstudio /home/rstudio/.rstudio
-  
+
+
 # Install MSSQL
 # adding custom MS repository
 RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
@@ -134,6 +135,9 @@ RUN echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
 # install SQL Server tools
 RUN apt-get update && ACCEPT_EULA=Y apt-get install -y mssql-tools
 RUN echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
+
+# Setup driver configuration
+ADD odbcinst.ini /etc/odbcinst.ini
 
 ## Install R packages
 RUN R -e 'install.packages(c("DBI", "odbc","RMySQL", "RPostgresSQL", "RSQLite","RSQLServer"))'
@@ -172,8 +176,6 @@ RUN chown -R rstudio:rstudio /usr/local/lib/R/site-library \
 
 RUN mkdir /home/rstudio/connect
 RUN chown -R rstudio:rstudio /home/rstudio/connect \
-    && chmod -R 777 /home/rstudio/connect 
-
-    
+    && chmod -R 777 /home/rstudio/connect
 
 CMD ["/init"]
