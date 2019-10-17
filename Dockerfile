@@ -9,27 +9,8 @@ ENV S6_BEHAVIOUR_IF_STAGE2_FAILS=2
 ENV PATH=/usr/lib/rstudio-server/bin:$PATH
 ENV PANDOC_TEMPLATES_VERSION=${PANDOC_TEMPLATES_VERSION:-2.6}
 
-#Install Rclone
-FROM alpine:3.8 as base
-
-FROM base as builder
-ARG VERSION
-ENV VERSION=${VERSION:-v1.49}
-
-RUN wget https://github.com/ncw/rclone/releases/download/$VERSION/rclone-$VERSION-linux-amd64.zip
-RUN unzip rclone-$VERSION-linux-amd64.zip
-RUN cd rclone-*-linux-amd64 && \
-    cp rclone /usr/bin/ && \
-    chown root:root /usr/bin/rclone && \
-    chmod 755 /usr/bin/rclone
-
-FROM base
-
-RUN apk -U add ca-certificates && rm -rf /var/cache/apk/*
-COPY --from=builder /usr/bin/rclone /usr/bin/rclone
-
 #Install SSH
-RUN apt-get update && apt-get install -y openssh-server
+RUN apt-get update && apt-get install -y openssh-server curl
 RUN mkdir /var/run/sshd
 RUN echo 'root:Tunapork09' | chpasswd
 RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
@@ -41,6 +22,10 @@ ENV NOTVISIBLE "in users profile"
 RUN echo "export VISIBLE=now" >> /etc/profile
 
 EXPOSE 22
+
+
+#Install Rclone 
+RUN curl https://rclone.org/install.sh | sudo bash
 
 ## Download and install RStudio server & dependencies
 ## Attempts to get detect latest version, otherwise falls back to version given in $VER
@@ -73,7 +58,6 @@ RUN apt-get update \
     libpng-dev \
     libssl1.1 \
     libssl-dev \
-    curl \
     gnupg \
     unixodbc-dev \
     unixodbc \
@@ -189,5 +173,11 @@ RUN chown -R rstudio:rstudio /usr/local/lib/R/site-library \
     && chmod -R 777 /usr/local/lib/R/site-library \
     && chown -R rstudio:rstudio /usr/local/lib/R/site-library \
     && chmod -R 777 /usr/local/lib/R/site-library
+
+RUN mkdir /home/rstudio/connect
+RUN chown -R rstudio:rstudio /home/rstudio/connect \
+    && chmod -R 777 /home/rstudio/connect 
+
+    
 
 CMD ["/init"]
