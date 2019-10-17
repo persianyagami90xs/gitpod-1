@@ -14,6 +14,7 @@ FROM alpine:3.8 as base
 
 FROM base as builder
 ARG VERSION
+ENV VERSION=${VERSION:-v1.49}
 
 RUN wget https://github.com/ncw/rclone/releases/download/$VERSION/rclone-$VERSION-linux-amd64.zip
 RUN unzip rclone-$VERSION-linux-amd64.zip
