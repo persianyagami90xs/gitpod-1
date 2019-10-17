@@ -10,20 +10,22 @@ ENV PATH=/usr/lib/rstudio-server/bin:$PATH
 ENV PANDOC_TEMPLATES_VERSION=${PANDOC_TEMPLATES_VERSION:-2.6}
 
 #Install Rclone
-FROM golang AS builder
-COPY . /go/src/github.com/rclone/rclone/
-WORKDIR /go/src/github.com/rclone/rclone/
+FROM alpine:3.8 as base
 
-RUN make quicktest
-RUN \
-  CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
-  make
-RUN ./rclone version
+FROM base as builder
+ARG VERSION
 
-# Begin final image
-FROM alpine:latest
-RUN apk --no-cache add ca-certificates fuse
-COPY --from=builder /go/src/github.com/rclone/rclone/rclone /usr/local/bin/
+RUN wget https://github.com/ncw/rclone/releases/download/$VERSION/rclone-$VERSION-linux-amd64.zip
+RUN unzip rclone-$VERSION-linux-amd64.zip
+RUN cd rclone-*-linux-amd64 && \
+    cp rclone /usr/bin/ && \
+    chown root:root /usr/bin/rclone && \
+    chmod 755 /usr/bin/rclone
+
+FROM base
+
+RUN apk -U add ca-certificates && rm -rf /var/cache/apk/*
+COPY --from=builder /usr/bin/rclone /usr/bin/rclone
 
 #Install SSH
 RUN apt-get update && apt-get install -y openssh-server
