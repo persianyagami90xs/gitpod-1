@@ -23,10 +23,6 @@ RUN echo "export VISIBLE=now" >> /etc/profile
 
 EXPOSE 22
 
-
-#Install Rclone 
-RUN curl https://rclone.org/install.sh | sudo bash
-
 ## Download and install RStudio server & dependencies
 ## Attempts to get detect latest version, otherwise falls back to version given in $VER
 ## Symlink pandoc, pandoc-citeproc so they are available system-wide
