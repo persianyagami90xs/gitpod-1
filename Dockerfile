@@ -9,6 +9,22 @@ ENV S6_BEHAVIOUR_IF_STAGE2_FAILS=2
 ENV PATH=/usr/lib/rstudio-server/bin:$PATH
 ENV PANDOC_TEMPLATES_VERSION=${PANDOC_TEMPLATES_VERSION:-2.6}
 
+#Install Rclone
+FROM golang AS builder
+COPY . /go/src/github.com/rclone/rclone/
+WORKDIR /go/src/github.com/rclone/rclone/
+
+RUN make quicktest
+RUN \
+  CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
+  make
+RUN ./rclone version
+
+# Begin final image
+FROM alpine:latest
+RUN apk --no-cache add ca-certificates fuse
+COPY --from=builder /go/src/github.com/rclone/rclone/rclone /usr/local/bin/
+
 #Install SSH
 RUN apt-get update && apt-get install -y openssh-server
 RUN mkdir /var/run/sshd
@@ -52,7 +68,7 @@ RUN apt-get update \
     libgc1c2 \
     libz-dev \
     libpng-dev \
-    libssl1.0.0 \
+    libssl1.1 \
     libssl-dev \
     curl \
     gnupg \
@@ -170,20 +186,5 @@ RUN chown -R rstudio:rstudio /usr/local/lib/R/site-library \
     && chmod -R 777 /usr/local/lib/R/site-library \
     && chown -R rstudio:rstudio /usr/local/lib/R/site-library \
     && chmod -R 777 /usr/local/lib/R/site-library
-
-FROM golang AS builder
-COPY . /go/src/github.com/rclone/rclone/
-WORKDIR /go/src/github.com/rclone/rclone/
-
-RUN make quicktest
-RUN \
-  CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
-  make
-RUN ./rclone version
-
-# Begin final image
-FROM alpine:latest
-RUN apk --no-cache add ca-certificates fuse
-COPY --from=builder /go/src/github.com/rclone/rclone/rclone /usr/local/bin/
 
 CMD ["/init"]
