@@ -36,6 +36,7 @@ RUN apt-get update \
     libobjc4 \
     libgc1c2 \
     libz-dev \
+    libpng-dev \
     curl \
     gnupg \
     unixodbc-dev \
