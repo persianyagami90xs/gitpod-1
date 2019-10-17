@@ -37,6 +37,8 @@ RUN apt-get update \
     libgc1c2 \
     libz-dev \
     libpng-dev \
+    libssl1.0.0 \
+    libssl-dev \
     curl \
     gnupg \
     unixodbc-dev \
