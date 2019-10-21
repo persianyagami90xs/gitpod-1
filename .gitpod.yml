@@ -7,3 +7,26 @@ ports:
   onOpen: open-browser
 - port: 8787
   onOpen: open-browser
+tasks:
+- command: mkdir /workspace/gitpod/logs          &&
+           touch /workspace/gitpod/logs/gitpod-install-log.txt       &&
+           echo "Starting .gitpod.yml installation" &&
+           pyenv global 3.7.4 &&
+           chmod +x envconfig.sh &&
+           echo "Ending .gitpod.yml installation"  &>>   /workspace/gitpod/logs/gitpod-install-log.txt
+
+
+vscode:
+  extensions:
+    - ms-vscode.cpptools@0.26.0:1r0lXrj0/V9ARe1InR3uKQ==
+    - ms-vscode.csharp@1.21.5:L1UR0rKjGSDRA3zUSyHwZQ==
+    - christian-kohler.path-intellisense@1.4.2:QnOrf5fk6KiVaQs4cNEP+w==
+    - ms-azuretools.vscode-docker@0.8.1:h+G8u0NnsSvzGg5SM6TOWA==
+    - Shan.code-settings-sync@3.4.3:lADxYq3EKc+4gqNNppMuiQ==
+    - ms-mssql.mssql@1.7.0:OtBZSZx5k+UXsGKzNKsLtg==
+    - ms-python.anaconda-extension-pack@1.0.1:zDfOOe7FoQk40SnrhxWS5g==
+    - mtxr.sqltools@0.21.0:79K2h0sLoAhA4kHsIKwnDw==
+    - ms-python.python@2019.10.41019:NP9EiG0Pg0u7OEupLz9SAA==
+    - ms-vscode-remote.vscode-remote-extensionpack@0.17.0:HZR5dk1dNG3MlzjwVechvg==
+    - ms-vscode.vscode-node-azure-pack@0.0.9:xdGHs1yPJfeWfqSojwgamA==
+    - vsciot-vscode.azure-iot-tools@0.3.0:bLoaPTDlgnIjavWbxaceYA==
