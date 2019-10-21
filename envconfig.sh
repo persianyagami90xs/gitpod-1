@@ -40,6 +40,11 @@ Rscript -e 'install.packages("drat", repos="https://cran.rstudio.com")'
 Rscript -e 'install.packages("IRkernel", repos="https://cran.rstudio.com")'
 Rscript -e 'IRkernel::installspec()'
 
+# Get github repos
+git clone https://github.com/mtvu/write.git
+git clone https://github.com/mtvu/infra.git
+git clone https://github.com/mtvu/notebooks.git
+
 #Notes
 #To run jupyter lab : jupyter lab --ip=0.0.0.0 --allow-root
 echo Done...
