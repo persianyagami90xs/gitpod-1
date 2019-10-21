@@ -44,6 +44,7 @@ Rscript -e 'IRkernel::installspec()'
 git clone https://github.com/mtvu/write.git
 git clone https://github.com/mtvu/infra.git
 git clone https://github.com/mtvu/notebooks.git
+git clone https://github.com/mtvu/config
 
 #Notes
 #To run jupyter lab : jupyter lab --ip=0.0.0.0 --allow-root
