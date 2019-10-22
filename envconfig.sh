@@ -8,6 +8,13 @@ echo "conda activate arcticw" > ~/.bashrc &&
 export PATH=/opt/conda/envs/env/bin:$PATH &&
 source ~/.bashrc
 
+#Install utils
+cd /home/gitpod &&
+wget https://github.com/gdrive-org/gdrive/releases/download/2.1.0/gdrive-linux-x64 &&
+mv gdrive-linux-x64 gd &&
+echo "alias gd=/home/abeo/gd" > ~/.bashrc 
+
+
 #Install conda packages
 conda install -y -c conda-forge glances
 conda install -y -c conda-forge gdal
