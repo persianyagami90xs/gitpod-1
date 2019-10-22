@@ -9,8 +9,6 @@ ENV S6_BEHAVIOUR_IF_STAGE2_FAILS=2
 ENV PATH=/usr/lib/rstudio-server/bin:$PATH
 ENV PANDOC_TEMPLATES_VERSION=${PANDOC_TEMPLATES_VERSION:-2.6}
 
-
-
 #Install SSH
 RUN apt-get update && apt-get install -y openssh-server curl
 RUN mkdir /var/run/sshd
@@ -131,8 +129,9 @@ RUN useradd -l -u 33333 -G sudo -md /home/gitpod -s /bin/bash -p gitpod gitpod \
 RUN { echo && echo "PS1='\[\e]0;\u \w\a\]\[\033[01;32m\]\u\[\033[00m\] \[\033[01;34m\]\w\[\033[00m\] \\\$ '" ; } >> .bashrc
 ENV HOME=/home/gitpod
 WORKDIR $HOME
+
 RUN chown -R gitpod:gitpod /home/gitpod/* \
-    && chmod -R 777 /home/gitpod/* \
+    && chmod -R 777 /home/gitpod/* 
 
 ### Node.js ###
 ARG NODE_VERSION=10.16.3
