@@ -9,10 +9,12 @@ ENV S6_BEHAVIOUR_IF_STAGE2_FAILS=2
 ENV PATH=/usr/lib/rstudio-server/bin:$PATH
 ENV PANDOC_TEMPLATES_VERSION=${PANDOC_TEMPLATES_VERSION:-2.6}
 
+ENV HOME=/home/gitpod
+WORKDIR $HOME
+
 #Install SSH
 RUN apt-get update && apt-get install -y openssh-server curl
 RUN mkdir /var/run/sshd
-RUN echo 'root:Tunapork09' | chpasswd
 RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 
 # SSH login fix. Otherwise user is kicked off after login
@@ -181,8 +183,7 @@ ENV LANG=C.UTF-8 \
     PYTHONIOENCODING=UTF-8 \
     CHROME_SANDBOX=False \
     CHROME_BINARY=google-chrome-unstable \
-    OUTPUT_DIR=/workspace/gitpod/data
-    
+    OUTPUT_DIR=/workspace/gitpod/data    
 
 # Install MSSQL
 # adding custom MS repository
@@ -248,5 +249,7 @@ RUN apt-get update \
  && apt-get install -y \
   redis-server \
  && rm -rf /var/lib/apt/lists/*
+ && locale-gen en_US.UTF-8 \
+ && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
 
 CMD ["/init"]
