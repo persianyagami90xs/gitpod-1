@@ -23,7 +23,6 @@ RUN echo "export VISIBLE=now" >> /etc/profile
 
 EXPOSE 22
 
-
 ## Download and install RStudio server & dependencies
 ## Attempts to get detect latest version, otherwise falls back to version given in $VER
 ## Symlink pandoc, pandoc-citeproc so they are available system-wide
@@ -122,6 +121,21 @@ RUN apt-get update \
           > /home/rstudio/.rstudio/monitored/user-settings/user-settings \
   && chown -R rstudio:rstudio /home/rstudio/.rstudio
 
+
+### Node.js ###
+ARG NODE_VERSION=10.16.3
+RUN curl -fsSL https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | PROFILE=/dev/null bash \
+    && bash -c ". .nvm/nvm.sh \
+        && nvm install $NODE_VERSION \
+        && npm config set python /usr/bin/python --global \
+        && npm config set python /usr/bin/python \
+        && npm install -g typescript yarn" \
+    && echo ". ~/.nvm/nvm-lazy.sh" | tee -a /home/gitpod/.profile /home/gitpod/.bashrc
+# above, we are adding the lazy nvm init to both .profile and .bashrc, because one is executed on interactive shells, the other for non-interactive shells (e.g. plugin-host)
+COPY --chown=gitpod:gitpod nvm-lazy.sh /home/gitpod/.nvm/nvm-lazy.sh
+ENV PATH=/home/gitpod/.nvm/versions/node/v${NODE_VERSION}/bin:$PATH
+
+# Install dependency for chrome
 RUN apt-get update \
     && apt-get install -yq --no-install-recommends \
         git wget curl youtube-dl gnupg2 libgconf-2-4 python3 python3-pip \
