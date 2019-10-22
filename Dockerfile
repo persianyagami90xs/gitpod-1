@@ -122,12 +122,53 @@ RUN apt-get update \
           > /home/rstudio/.rstudio/monitored/user-settings/user-settings \
   && chown -R rstudio:rstudio /home/rstudio/.rstudio
 
-#Install chrominium
-RUN apt-get install -y gconf-service libasound2 libatk1.0-0 libcairo2 libcups2 libfontconfig1 libgdk-pixbuf2.0-0 libgtk-3-0 libnspr4 libpango-1.0-0 libxss1 fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils
+RUN apt-get update \
+    && apt-get install -yq --no-install-recommends \
+        git wget curl youtube-dl gnupg2 libgconf-2-4 python3 python3-pip \
+    && rm -rf /var/lib/apt/lists/*
 
-# install chrome
-RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-RUN dpkg -i google-chrome-stable_current_amd64.deb; apt-get -fy install
+# Install latest chrome package and fonts to support major charsets (Chinese, Japanese, Arabic, Hebrew, Thai and a few others)
+RUN apt-get update && apt-get install -y wget --no-install-recommends \
+    && wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
+    && sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' \
+    && apt-get update \
+    && apt-get install -y google-chrome-unstable fonts-ipafont-gothic fonts-wqy-zenhei fonts-thai-tlwg fonts-kacst ttf-freefont \
+      --no-install-recommends \
+    && rm -rf /var/lib/apt/lists/* \
+    && rm -rf /src/*.deb
+
+# It's a good idea to use dumb-init to help prevent zombie chrome processes.
+ADD https://github.com/Yelp/dumb-init/releases/download/v1.2.0/dumb-init_1.2.0_amd64 /usr/local/bin/dumb-init
+RUN chmod +x /usr/local/bin/dumb-init
+
+# Uncomment to skip the chromium download when installing puppeteer. If you do,
+# you'll need to launch puppeteer with:
+#     browser.launch({executablePath: 'google-chrome-unstable'})
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
+
+# Install puppeteer so it's available in the container.
+RUN npm i puppeteer
+
+# Install the ArchiveBox repository and pip requirements
+COPY . /home/pptruser/app
+RUN mkdir -p /workspace/gitpod/data \
+    && chown -R pptruser:pptruser /workspace/gitpod/data \
+    && ln -s /workspace/gitpod/data /home/pptruser/app/archivebox/output \
+    && ln -s /home/pptruser/app/bin/* /bin/ \
+    && ln -s /home/pptruser/app/bin/archivebox /bin/archive \
+    && chown -R pptruser:pptruser /home/pptruser/app/archivebox
+    # && pip3 install -r /home/pptruser/app/archivebox/requirements.txt
+
+VOLUME /workspace/gitpod/data
+
+ENV LANG=C.UTF-8 \
+    LANGUAGE=en_US:en \
+    LC_ALL=C.UTF-8 \
+    PYTHONIOENCODING=UTF-8 \
+    CHROME_SANDBOX=False \
+    CHROME_BINARY=google-chrome-unstable \
+    OUTPUT_DIR=/workspace/gitpod/data
+    
 
 # Install MSSQL
 # adding custom MS repository
