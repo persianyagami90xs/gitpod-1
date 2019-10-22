@@ -8,11 +8,21 @@ echo "conda activate arcticw" > ~/.bashrc &&
 export PATH=/opt/conda/envs/env/bin:$PATH &&
 source ~/.bashrc
 
+# Get github repos
+git clone https://github.com/mtvu/write.git
+git clone https://github.com/mtvu/infra.git
+git clone https://github.com/mtvu/notebooks.git
+git clone https://github.com/mtvu/config
+
+
 #Install utils
 cd /home/gitpod &&
 wget https://github.com/gdrive-org/gdrive/releases/download/2.1.0/gdrive-linux-x64 &&
 mv gdrive-linux-x64 gd &&
-echo "alias gd=/home/abeo/gd" > ~/.bashrc 
+chmod 777 gd &&
+echo "alias gd=/home/abeo/gd" > ~/.bashrc
+
+#Install archivebox
 
 
 #Install conda packages
@@ -41,18 +51,13 @@ conda install -y -c conda-forge cassandra-driver
 
 
 #Install pip packages
-pips install -r /workspace/notebooks/requirements.txt
+pip install -r /workspace/gitpod/notebooks/requirements.txt
 
 #Install R
 Rscript -e 'install.packages("drat", repos="https://cran.rstudio.com")'
 Rscript -e 'install.packages("IRkernel", repos="https://cran.rstudio.com")'
 Rscript -e 'IRkernel::installspec()'
 
-# Get github repos
-git clone https://github.com/mtvu/write.git
-git clone https://github.com/mtvu/infra.git
-git clone https://github.com/mtvu/notebooks.git
-git clone https://github.com/mtvu/config
 
 #Notes
 #To run jupyter lab : jupyter lab --ip=0.0.0.0 --allow-root
