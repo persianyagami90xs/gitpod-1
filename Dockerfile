@@ -249,7 +249,5 @@ RUN apt-get update \
  && apt-get install -y \
   redis-server \
  && rm -rf /var/lib/apt/lists/*
- && locale-gen en_US.UTF-8 \
- && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
 
 CMD ["/init"]
