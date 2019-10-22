@@ -164,23 +164,11 @@ RUN apt-get update && apt-get install -y wget --no-install-recommends \
 ADD https://github.com/Yelp/dumb-init/releases/download/v1.2.0/dumb-init_1.2.0_amd64 /usr/local/bin/dumb-init
 RUN chmod +x /usr/local/bin/dumb-init
 
-# Uncomment to skip the chromium download when installing puppeteer. If you do,
-# you'll need to launch puppeteer with:
-#     browser.launch({executablePath: 'google-chrome-unstable'})
-ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
-
 # Install puppeteer so it's available in the container.
 RUN npm i puppeteer
 
-# Install the ArchiveBox repository and pip requirements
-COPY . /home/pptruser/app
 RUN mkdir -p /workspace/gitpod/data \
-    && chown -R pptruser:pptruser /workspace/gitpod/data \
-    && ln -s /workspace/gitpod/data /home/pptruser/app/archivebox/output \
-    && ln -s /home/pptruser/app/bin/* /bin/ \
-    && ln -s /home/pptruser/app/bin/archivebox /bin/archive \
-    && chown -R pptruser:pptruser /home/pptruser/app/archivebox
-    # && pip3 install -r /home/pptruser/app/archivebox/requirements.txt
+    && chown -R gitpod:gitpod /workspace/gitpod/data \
 
 VOLUME /workspace/gitpod/data
 
