@@ -141,10 +141,7 @@ RUN curl -fsSL https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.
         && nvm install $NODE_VERSION \
         && npm config set python /usr/bin/python --global \
         && npm config set python /usr/bin/python \
-        && npm install -g typescript yarn" \
-    && echo ". ~/.nvm/nvm-lazy.sh" | tee -a /home/gitpod/.profile /home/gitpod/.bashrc
-# above, we are adding the lazy nvm init to both .profile and .bashrc, because one is executed on interactive shells, the other for non-interactive shells (e.g. plugin-host)
-COPY --chown=gitpod:gitpod nvm-lazy.sh /home/gitpod/.nvm/nvm-lazy.sh
+        && npm install -g typescript yarn" 
 ENV PATH=/home/gitpod/.nvm/versions/node/v${NODE_VERSION}/bin:$PATH
 
 # Install dependency for chrome
