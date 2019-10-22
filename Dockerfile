@@ -130,8 +130,8 @@ RUN { echo && echo "PS1='\[\e]0;\u \w\a\]\[\033[01;32m\]\u\[\033[00m\] \[\033[01
 ENV HOME=/home/gitpod
 WORKDIR $HOME
 
-RUN chown -R gitpod:gitpod /home/gitpod/* \
-    && chmod -R 777 /home/gitpod/* 
+RUN chown -R gitpod:gitpod /home/gitpod/.config \
+    && chmod -R 777 /home/gitpod/.config
 
 ### Node.js ###
 ARG NODE_VERSION=10.16.3
