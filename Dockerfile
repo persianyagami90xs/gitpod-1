@@ -230,6 +230,16 @@ RUN chown -R rstudio:rstudio /opt/conda \
     && chmod -R 777 /opt/conda \
     && chown -R rstudio:rstudio /home/rstudio/.conda \
     && chmod -R 777 /home/rstudio/.conda
+    
+RUN conda install --yes --freeze-installed \
+    nomkl \
+    jupyterlab==1.1.4\
+    beakerx==1.4.1 \
+    dask==1.2.2 \
+    numpy==1.16.3 \
+    pandas==0.24.2 \
+    tini==0.18.0 \
+    && conda clean -afy
 
 RUN chown -R rstudio:rstudio /usr/local/lib/R/site-library \
     && chmod -R 777 /usr/local/lib/R/site-library \
