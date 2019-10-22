@@ -49,4 +49,5 @@ git clone https://github.com/mtvu/config
 
 #Notes
 #To run jupyter lab : jupyter lab --ip=0.0.0.0 --allow-root
+#rstudio-server start
 echo Done...
