@@ -9,6 +9,7 @@ export PATH=/opt/conda/envs/env/bin:$PATH &&
 source ~/.bashrc
 
 #Install conda packages
+conda install -y -c conda-forge glances
 conda install -y -c conda-forge gdal
 conda install -y -c conda-forge xeus-cling
 conda install -y -c conda-forge xeus-python
@@ -30,7 +31,7 @@ conda install -y -c conda-forge rx
 conda install -y -c conda-forge dash-core-components
 conda install -y -c anaconda pyodbc
 conda install -y -c conda-forge cassandra-driver
-conda install -y -c conda-forge glances
+
 
 #Install pip packages
 pips install -r /workspace/notebooks/requirements.txt
