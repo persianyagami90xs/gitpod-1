@@ -168,7 +168,7 @@ RUN chmod +x /usr/local/bin/dumb-init
 RUN npm i puppeteer
 
 RUN mkdir -p /workspace/gitpod/data \
-    && chown -R gitpod:gitpod /workspace/gitpod/data \
+    && chown -R gitpod:gitpod /workspace/gitpod/data
 
 VOLUME /workspace/gitpod/data
 
