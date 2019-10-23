@@ -20,7 +20,8 @@ cd /home/gitpod &&
 wget https://github.com/gdrive-org/gdrive/releases/download/2.1.0/gdrive-linux-x64 &&
 mv gdrive-linux-x64 gd &&
 chmod 777 gd &&
-echo "alias gd=/home/abeo/gd" > ~/.bashrc
+echo "alias gd=/home/gitpod/gd" >> ~/.bashrc &&
+echo "alias ll="ls -lart" >> ~/.bashrc
 
 #Install archivebox
 

@@ -142,7 +142,7 @@ RUN curl -fsSL https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.
         && nvm install $NODE_VERSION \
         && npm config set python /usr/bin/python --global \
         && npm config set python /usr/bin/python \
-        && npm install -g typescript yarn" 
+        && npm install -g typescript yarn"
 ENV PATH=/home/gitpod/.nvm/versions/node/v${NODE_VERSION}/bin:$PATH
 
 # Install dependency for chrome
@@ -170,7 +170,7 @@ RUN npm i puppeteer
 
 RUN mkdir -p /workspace/gitpod/data \
     && chown -R gitpod:gitpod /workspace/gitpod/data
-    
+
 
 VOLUME /workspace/gitpod/data
 
@@ -180,7 +180,7 @@ ENV LANG=C.UTF-8 \
     PYTHONIOENCODING=UTF-8 \
     CHROME_SANDBOX=False \
     CHROME_BINARY=google-chrome-unstable \
-    OUTPUT_DIR=/workspace/gitpod/data    
+    OUTPUT_DIR=/workspace/gitpod/data
 
 # Install MSSQL
 # adding custom MS repository
@@ -201,6 +201,9 @@ RUN echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
 
 # Setup driver configuration
 ADD odbcinst.ini /etc/odbcinst.ini
+
+#Update bashrc
+ADD 
 
 ## Install R packages
 RUN R -e 'install.packages(c("DBI", "odbc","RMySQL", "RPostgresSQL", "RSQLite","RSQLServer"))'
@@ -231,7 +234,7 @@ RUN chown -R rstudio:rstudio /opt/conda \
     && chmod -R 777 /opt/conda \
     && chown -R rstudio:rstudio /home/rstudio/.conda \
     && chmod -R 777 /home/rstudio/.conda
-    
+
 RUN chown -R rstudio:rstudio /usr/local/lib/R/site-library \
     && chmod -R 777 /usr/local/lib/R/site-library \
     && chown -R rstudio:rstudio /usr/local/lib/R/site-library \
