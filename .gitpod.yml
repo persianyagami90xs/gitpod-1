@@ -15,8 +15,6 @@ tasks:
            chmod +x envconfig.sh &&
            bash envconfig.sh &&
            echo "Ending .gitpod.yml installation"  &>>   /workspace/gitpod/logs/gitpod-install-log.txt
-
-
 vscode:
   extensions:
     - ms-vscode.cpptools@0.26.0:1r0lXrj0/V9ARe1InR3uKQ==

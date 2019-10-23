@@ -2,11 +2,11 @@
 #Should match Config.py
 echo Initializing...
 
-#conda update -n base -c defaults conda -y
-conda create --name arcticw python=3.6 &&
-echo "conda activate arcticw" > ~/.bashrc &&
-export PATH=/opt/conda/envs/env/bin:$PATH &&
-source ~/.bashrc
+# #conda update -n base -c defaults conda -y
+# conda create --name arcticw python=3.6 &&
+# echo "conda activate arcticw" > ~/.bashrc &&
+# export PATH=/opt/conda/envs/env/bin:$PATH &&
+# source ~/.bashrc
 
 # Get github repos
 git clone https://github.com/mtvu/write.git
