@@ -161,7 +161,8 @@ RUN chown -R gitpod:gitpod /home/gitpod/.cache \
     
 #Install Python Packages
 COPY requirements.txt /tmp/
-RUN  pip3 install --requirement /tmp/requirements.txt
+#RUN  pip3 install --requirement /tmp/requirements.txt
+RUN cat /tmp/requirements.txt | sed -e '/^\s*#.*$/d' -e '/^\s*$/d' | xargs -n 1 pip3 install
 
 ### Node.js ###
 ARG NODE_VERSION=10.16.3
@@ -243,8 +244,6 @@ COPY pam-helper.sh /usr/lib/rstudio-server/bin/pam-helper
 EXPOSE 8787
 ## automatically link a shared volume for kitematic users
 VOLUME /home/rstudio/kitematic
-
-
 
 RUN chown -R rstudio:rstudio /opt/conda \
     && chmod -R 777 /opt/conda \
