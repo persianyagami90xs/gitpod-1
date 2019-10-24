@@ -137,7 +137,6 @@ RUN chown -R gitpod:gitpod /home/gitpod/.config \
     && chmod -R 777 /home/gitpod/.config
     
 #Install Python Packages
-RUN pip install --upgrade pip
 COPY requirements.txt /tmp/
 RUN  pip3 install --requirement /tmp/requirements.txt
 
