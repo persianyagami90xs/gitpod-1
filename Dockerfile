@@ -171,7 +171,6 @@ RUN npm i puppeteer
 RUN mkdir -p /workspace/gitpod/data \
     && chown -R gitpod:gitpod /workspace/gitpod/data
 
-
 VOLUME /workspace/gitpod/data
 
 ENV LANG=C.UTF-8 \
@@ -202,8 +201,9 @@ RUN echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
 # Setup driver configuration
 ADD odbcinst.ini /etc/odbcinst.ini
 
-#Update bashrc
-ADD 
+#Install Python Packages
+COPY requirements.txt /tmp/
+RUN  pip install --requirement /tmp/requirements.txt
 
 ## Install R packages
 RUN R -e 'install.packages(c("DBI", "odbc","RMySQL", "RPostgresSQL", "RSQLite","RSQLServer"))'
@@ -228,7 +228,15 @@ RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86
     rm ~/miniconda.sh && \
     ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
     echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \
-    echo "conda activate base" >> ~/.bashrc
+    echo "conda activate base" >> ~/.bashrc && \
+    source /opt/conda/etc/profile.d/conda.sh
+
+RUN conda install --quiet --yes \
+    'beautifulsoup4=4.8.*' \
+    'conda-forge::blas=*=openblas' \
+    'xlrd' \
+    && \
+    conda clean --all -f -y
 
 RUN chown -R rstudio:rstudio /opt/conda \
     && chmod -R 777 /opt/conda \
