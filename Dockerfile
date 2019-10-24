@@ -136,9 +136,7 @@ RUN mkdir /home/gitpod/.config
 RUN chown -R gitpod:gitpod /home/gitpod/.config \
     && chmod -R 777 /home/gitpod/.config
     
-#Install Python Packages
-COPY requirements.txt /tmp/
-RUN  pip3 install --requirement /tmp/requirements.txt
+
 
 RUN mkdir /home/rstudio/.conda
 
@@ -158,6 +156,12 @@ RUN conda install --quiet --yes \
     'xlrd' \
     && \
     conda clean --all -f -y
+RUN chown -R gitpod:gitpod /home/gitpod/.cache \
+    && chmod -R 777 /home/gitpod/.cache
+    
+#Install Python Packages
+COPY requirements.txt /tmp/
+RUN  pip3 install --requirement /tmp/requirements.txt
 
 ### Node.js ###
 ARG NODE_VERSION=10.16.3
