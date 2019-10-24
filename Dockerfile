@@ -134,6 +134,29 @@ WORKDIR $HOME
 RUN mkdir /home/gitpod/.config
 RUN chown -R gitpod:gitpod /home/gitpod/.config \
     && chmod -R 777 /home/gitpod/.config
+    
+#Install Python Packages
+COPY requirements.txt /tmp/
+RUN  pip install --requirement /tmp/requirements.txt
+
+RUN mkdir /home/rstudio/.conda
+
+# Install util tools.
+# Install conda
+RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh && \
+    /bin/bash ~/miniconda.sh -b -p /opt/conda && \
+    rm ~/miniconda.sh && \
+    ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
+    echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \
+    echo "conda activate base" >> ~/.bashrc && \
+    source /opt/conda/etc/profile.d/conda.sh
+
+RUN conda install --quiet --yes \
+    'beautifulsoup4=4.8.*' \
+    'conda-forge::blas=*=openblas' \
+    'xlrd' \
+    && \
+    conda clean --all -f -y
 
 ### Node.js ###
 ARG NODE_VERSION=10.16.3
@@ -201,9 +224,6 @@ RUN echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
 # Setup driver configuration
 ADD odbcinst.ini /etc/odbcinst.ini
 
-#Install Python Packages
-COPY requirements.txt /tmp/
-RUN  pip install --requirement /tmp/requirements.txt
 
 ## Install R packages
 RUN R -e 'install.packages(c("DBI", "odbc","RMySQL", "RPostgresSQL", "RSQLite","RSQLServer"))'
@@ -219,24 +239,7 @@ EXPOSE 8787
 ## automatically link a shared volume for kitematic users
 VOLUME /home/rstudio/kitematic
 
-RUN mkdir /home/rstudio/.conda
 
-# Install util tools.
-# Install conda
-RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh && \
-    /bin/bash ~/miniconda.sh -b -p /opt/conda && \
-    rm ~/miniconda.sh && \
-    ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
-    echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \
-    echo "conda activate base" >> ~/.bashrc && \
-    source /opt/conda/etc/profile.d/conda.sh
-
-RUN conda install --quiet --yes \
-    'beautifulsoup4=4.8.*' \
-    'conda-forge::blas=*=openblas' \
-    'xlrd' \
-    && \
-    conda clean --all -f -y
 
 RUN chown -R rstudio:rstudio /opt/conda \
     && chmod -R 777 /opt/conda \
