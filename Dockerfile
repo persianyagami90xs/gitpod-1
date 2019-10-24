@@ -10,7 +10,7 @@ ENV PATH=/usr/lib/rstudio-server/bin:$PATH
 ENV PANDOC_TEMPLATES_VERSION=${PANDOC_TEMPLATES_VERSION:-2.6}
 
 #Install SSH
-RUN apt-get update && apt-get install -y openssh-server curl
+RUN apt-get update && apt-get install -y openssh-server curl 
 RUN mkdir /var/run/sshd
 RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 
@@ -26,7 +26,8 @@ EXPOSE 22
 ## Attempts to get detect latest version, otherwise falls back to version given in $VER
 ## Symlink pandoc, pandoc-citeproc so they are available system-wide
 RUN apt-get update \
-  && apt-get install -y --no-install-recommends \
+  && apt-get install -y --no-install-recommends \  
+  && apt-get install -y python-pip \
     sshfs \
     file \
     git \
@@ -64,7 +65,7 @@ RUN apt-get update \
     rsync \
     silversearcher-ag \
     youtube-dl \
-    aria2 \
+    aria2 \    
   && if [ -z "$RSTUDIO_VERSION" ]; then RSTUDIO_URL="https://www.rstudio.org/download/latest/stable/server/debian9_64/rstudio-server-latest-amd64.deb"; else RSTUDIO_URL="http://download2.rstudio.org/server/debian9/x86_64/rstudio-server-${RSTUDIO_VERSION}-amd64.deb"; fi \
   && wget -q $RSTUDIO_URL \
   && dpkg -i rstudio-server-*-amd64.deb \
@@ -136,6 +137,7 @@ RUN chown -R gitpod:gitpod /home/gitpod/.config \
     && chmod -R 777 /home/gitpod/.config
     
 #Install Python Packages
+RUN pip install --upgrade pip
 COPY requirements.txt /tmp/
 RUN  pip install --requirement /tmp/requirements.txt
 
