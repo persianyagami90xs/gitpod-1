@@ -27,7 +27,7 @@ EXPOSE 22
 ## Symlink pandoc, pandoc-citeproc so they are available system-wide
 RUN apt-get update \
   && apt-get install -y --no-install-recommends \  
-  && apt-get install -y python-pip \
+  && apt-get install -y python3-pip \
     sshfs \
     file \
     git \
@@ -139,7 +139,7 @@ RUN chown -R gitpod:gitpod /home/gitpod/.config \
 #Install Python Packages
 RUN pip install --upgrade pip
 COPY requirements.txt /tmp/
-RUN  pip install --requirement /tmp/requirements.txt
+RUN  pip3 install --requirement /tmp/requirements.txt
 
 RUN mkdir /home/rstudio/.conda
 
