@@ -142,16 +142,16 @@ FROM continuumio/miniconda3:4.6.14
 
 # Install util tools.
 # Install conda
-RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh && \
-    /bin/bash ~/miniconda.sh -b -p /opt/conda && \
-    rm ~/miniconda.sh && \
-    ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
-    echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \
-    echo "conda activate base" >> ~/.bashrc 
+#RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh && \
+#    /bin/bash ~/miniconda.sh -b -p /opt/conda && \
+#    rm ~/miniconda.sh && \
+#    ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
+#    echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \
+#    echo "conda activate base" >> ~/.bashrc 
     
-RUN . ~/.bashrc
+#RUN . ~/.bashrc
 
-ENV PATH /opt/conda/envs/base/bin:$PATH
+#ENV PATH /opt/conda/envs/base/bin:$PATH
 #COPY requirements.yml /tmp/
 #RUN conda env update –f /tmp/environment.yml –n base
 
@@ -159,7 +159,8 @@ RUN conda install --yes \
     dask==1.2.2 \
     numpy==1.16.3 \
     pandas==0.24.2 \
-    tini==0.18.0
+    tini==0.18.0 \
+     && conda clean -afy
     
 RUN chown -R gitpod:gitpod /home/gitpod/.cache \
     && chmod -R 777 /home/gitpod/.cache
