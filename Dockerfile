@@ -139,6 +139,17 @@ RUN chown -R gitpod:gitpod /home/gitpod/.config \
 RUN mkdir /home/rstudio/.conda
 
 FROM continuumio/miniconda3:4.6.14
+RUN conda install --yes --freeze-installed \
+    nomkl \
+    dask==1.2.2 \
+    numpy==1.16.3 \
+    pandas==0.24.2 \
+    tini==0.18.0 \
+    && conda clean -afy \
+    && find /opt/conda/ -follow -type f -name '*.a' -delete \
+    && find /opt/conda/ -follow -type f -name '*.pyc' -delete \
+    && find /opt/conda/ -follow -type f -name '*.js.map' -delete \
+    && find /opt/conda/lib/python*/site-packages/bokeh/server/static -follow -type f -name '*.js' !
 
 # Install util tools.
 # Install conda
@@ -155,12 +166,6 @@ FROM continuumio/miniconda3:4.6.14
 #COPY requirements.yml /tmp/
 #RUN conda env update –f /tmp/environment.yml –n base
 
-RUN conda install --yes \
-    dask==1.2.2 \
-    numpy==1.16.3 \
-    pandas==0.24.2 \
-    tini==0.18.0 \
-     && conda clean -afy
     
 RUN chown -R gitpod:gitpod /home/gitpod/.cache \
     && chmod -R 777 /home/gitpod/.cache
