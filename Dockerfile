@@ -135,11 +135,10 @@ WORKDIR $HOME
 RUN mkdir /home/gitpod/.config
 RUN chown -R gitpod:gitpod /home/gitpod/.config \
     && chmod -R 777 /home/gitpod/.config
+    
+RUN mkdir /home/rstudio/.conda
 
 FROM continuumio/miniconda3:4.6.14
-
-
-RUN mkdir /home/rstudio/.conda
 
 # Install util tools.
 # Install conda
