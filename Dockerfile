@@ -1,7 +1,6 @@
 FROM continuumio/miniconda3:4.6.14
 RUN conda config --append channels conda-forge
 RUN conda install --yes --freeze-installed \
-    nomkl \
     jupyterlab \
     beakerx \
     tensorflow \
@@ -9,7 +8,6 @@ RUN conda install --yes --freeze-installed \
     glances \
     dash \
     dash-table \
-    pytorch \
     util-linux \
     openblas \
     xeus-cling \ 
