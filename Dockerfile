@@ -158,10 +158,10 @@ RUN conda install --yes --freeze-installed \
     cassandra-driver \
     keras \
     gdal \
-    dask==1.2.2 \
-    numpy==1.16.3 \
-    pandas==0.24.2 \
-    tini==0.18.0 \
+    dask \
+    numpy \
+    pandas \
+    tini \
     && conda clean -afy 
 
 
