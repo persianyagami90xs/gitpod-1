@@ -1,7 +1,7 @@
 FROM continuumio/miniconda3:4.6.14
 SHELL [ "/bin/bash", "-c"]
 RUN conda create -n env python=3.6
-RUN echo "source activate env" > ~/.bashrc
+RUN echo "conda activate env" > ~/.bashrc
 ENV PATH /opt/conda/envs/env/bin:$PATH
 RUN /bin/bash -c "conda activate arcticw"
 #Install Python Packages
