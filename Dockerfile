@@ -149,7 +149,7 @@ RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86
     
 RUN . ~/.bashrc
 
-#ENV PATH /opt/conda/envs/base/bin:$PATH
+ENV PATH /opt/conda/envs/base/bin:$PATH
 #COPY requirements.yml /tmp/
 #RUN conda env update –f /tmp/environment.yml –n base
 
