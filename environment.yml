@@ -1,15 +1,12 @@
-# The name of the environment matching the repository name
-name: arcticw
-channels:
+name: base                                                                   
+channels:                                                                    
 - conda-forge
-- defaults
-# Start with Python and include everything you need
+- defaults                                                                
 dependencies:
-- python=3.6
-- pip
-- numpy
-- jupyterlab
-- beakerx
- - pip:
-    - pandas
-    - matplotlib
+  - python=3.6
+  - pandas=0.22.0
+  - sqlalchemy=1.2.1
+  - scikit-learn=0.20.0
+  - pyodbc=4.0.23
+  - jupyterlab
+  - beakerx
