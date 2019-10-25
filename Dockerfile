@@ -8,6 +8,12 @@ RUN conda install --yes --freeze-installed \
      glances \
      jupyterlab \
      beakerx \
+     xeus-cling \ 
+     dask \
+     numpy \
+     pandas \
+     dash \
+     pyodbc \
     && conda clean -afy 
 #Install Python Packages
 COPY requirements.txt /tmp/
