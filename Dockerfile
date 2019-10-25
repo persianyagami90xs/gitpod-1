@@ -6,7 +6,7 @@ ENV PATH /opt/conda/envs/env/bin:$PATH
 RUN conda config --append channels conda-forge
 RUN conda install --yes --freeze-installed \
      glances \
-    && conda clean -afy \
+    && conda clean -afy 
 #Install Python Packages
 COPY requirements.txt /tmp/
 #RUN  pip3 install --requirement /tmp/requirements.txt
