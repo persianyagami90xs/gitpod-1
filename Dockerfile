@@ -141,15 +141,28 @@ RUN mkdir /home/rstudio/.conda
 FROM continuumio/miniconda3:4.6.14
 RUN conda install --yes --freeze-installed \
     nomkl \
+    jupyterlab \
+    beakerx \
+    tensorflow \
+    pyodbc \
+    glances \
+    dash \
+    dash-table \
+    pytorch \
+    util-linux \
+    openblas \
+    xeus-cling \ 
+    xeus-python \
+    rx \
+    cassandra-driver \
+    keras \
+    gdal \
     dask==1.2.2 \
     numpy==1.16.3 \
     pandas==0.24.2 \
     tini==0.18.0 \
-    && conda clean -afy \
-    && find /opt/conda/ -follow -type f -name '*.a' -delete \
-    && find /opt/conda/ -follow -type f -name '*.pyc' -delete \
-    && find /opt/conda/ -follow -type f -name '*.js.map' -delete \
-    && find /opt/conda/lib/python*/site-packages/bokeh/server/static -follow -type f -name '*.js' !
+    && conda clean -afy 
+
 
 # Install util tools.
 # Install conda
