@@ -3,8 +3,9 @@ SHELL [ "/bin/bash", "-c"]
 RUN conda create -n env python=3.6
 RUN echo "conda activate env" > ~/.bashrc
 ENV PATH /opt/conda/envs/env/bin:$PATH
+RUN conda config --append channels conda-forge
 RUN conda install --yes --freeze-installed \
-    glances \
+     glances \
     && conda clean -afy \
 #Install Python Packages
 COPY requirements.txt /tmp/
