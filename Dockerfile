@@ -1,4 +1,5 @@
-FROM continuumio/miniconda3:4.6.14	
+FROM continuumio/miniconda3:4.6.14
+RUN [ “/bin/bash”, “-c”]
 RUN conda create -n env python=3.6
 RUN echo "source activate env" > ~/.bashrc
 ENV PATH /opt/conda/envs/env/bin:$PATH
