@@ -1,25 +1,3 @@
-FROM continuumio/miniconda3:4.6.14
-SHELL [ "/bin/bash", "-c"]
-RUN conda create -n arcw python=3.6
-RUN echo "conda activate arcw" > ~/.bashrc
-ENV PATH /opt/conda/envs/env/bin:$PATH
-RUN conda config --append channels conda-forge
-RUN conda install --yes --freeze-installed \
-     glances \
-     jupyterlab \
-     beakerx \
-     xeus-cling \
-     dask \
-     numpy \
-     pandas \
-     dash \
-     pyodbc \
-    && conda clean -afy
-
-#Install Python Packages
-COPY requirements.txt /tmp/
-RUN cat /tmp/requirements.txt | sed -e '/^\s*#.*$/d' -e '/^\s*$/d' | xargs -n 1 pip install
-
 FROM rocker/r-ver:3.6.1
 
 ARG RSTUDIO_VERSION
@@ -274,9 +252,9 @@ EXPOSE 8787
 ## automatically link a shared volume for kitematic users
 VOLUME /home/rstudio/kitematic
 
-RUN chown -R rstudio:rstudio /opt/conda \
-    && chmod -R 777 /opt/conda \
-    && chown -R rstudio:rstudio /home/rstudio/.conda \
+#RUN chown -R rstudio:rstudio /opt/conda \
+ #   && chmod -R 777 /opt/conda \
+ RUN chown -R rstudio:rstudio /home/rstudio/.conda \
     && chmod -R 777 /home/rstudio/.conda
 
 RUN chown -R rstudio:rstudio /usr/local/lib/R/site-library \

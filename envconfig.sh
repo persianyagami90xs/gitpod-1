@@ -53,6 +53,7 @@ conda install -y -c conda-forge cassandra-driver
 
 #Install pip packages
 pip install -r /workspace/gitpod/notebooks/requirements.txt
+#cat /tmp/requirements.txt | sed -e '/^\s*#.*$/d' -e '/^\s*$/d' | xargs -n 1 pip install
 
 #Install R
 Rscript -e 'install.packages("drat", repos="https://cran.rstudio.com")'
