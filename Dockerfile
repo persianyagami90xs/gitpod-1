@@ -1,4 +1,4 @@
-FROM continuumio/miniconda3
+FROM jupyter/scipy-notebook
 ENTRYPOINT [ “/bin/bash”, “-c” ]
 RUN conda create -n arcw python=3.6
 RUN echo "conda activate arcw" > ~/.bashrc
