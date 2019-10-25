@@ -4,7 +4,6 @@ RUN conda create -n arcw python=3.6
 RUN echo "conda activate arcw" > ~/.bashrc
 ENV PATH /opt/conda/envs/env/bin:$PATH
 RUN conda config --append channels conda-forge
-RUN conda activate arcw
 RUN conda install --yes --freeze-installed \
      glances \
     && conda clean -afy 
