@@ -135,7 +135,10 @@ WORKDIR $HOME
 RUN mkdir /home/gitpod/.config
 RUN chown -R gitpod:gitpod /home/gitpod/.config \
     && chmod -R 777 /home/gitpod/.config
-    
+
+FROM continuumio/miniconda3:4.6.14
+
+
 RUN mkdir /home/rstudio/.conda
 
 # Install util tools.
@@ -153,12 +156,12 @@ ENV PATH /opt/conda/envs/base/bin:$PATH
 #COPY requirements.yml /tmp/
 #RUN conda env update –f /tmp/environment.yml –n base
 
-RUN conda install --quiet --yes \
-    'beautifulsoup4=4.8.*' \
-    'conda-forge::blas=*=openblas' \
-    'xlrd' \
-    && \
-    conda clean --all -f -y
+RUN conda install --yes \
+    dask==1.2.2 \
+    numpy==1.16.3 \
+    pandas==0.24.2 \
+    tini==0.18.0
+    
 RUN chown -R gitpod:gitpod /home/gitpod/.cache \
     && chmod -R 777 /home/gitpod/.cache
     
