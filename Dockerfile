@@ -15,9 +15,9 @@ RUN conda install --yes --freeze-installed \
      dash \
      pyodbc \
     && conda clean -afy
+
 #Install Python Packages
 COPY requirements.txt /tmp/
-#RUN  pip3 install --requirement /tmp/requirements.txt
 RUN cat /tmp/requirements.txt | sed -e '/^\s*#.*$/d' -e '/^\s*$/d' | xargs -n 1 pip install
 
 FROM rocker/r-ver:3.6.1
@@ -160,9 +160,6 @@ RUN chown -R gitpod:gitpod /home/gitpod/.config \
 
 RUN mkdir /home/rstudio/.conda
 
-
-
-
 # Install util tools.
 # Install conda
 #RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh && \
@@ -172,20 +169,33 @@ RUN mkdir /home/rstudio/.conda
 #    echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \
 #    echo "conda activate base" >> ~/.bashrc
 
-#RUN . ~/.bashrc
+# RUN conda config --append channels conda-forge
+# RUN conda install --yes --freeze-installed \
+#      glances \
+#      jupyterlab \
+#      beakerx \
+#      xeus-cling \
+#      dask \
+#      numpy \
+#      pandas \
+#      dash \
+#      pyodbc \
+#     && conda clean -afy
+# #Install Python Packages
+# COPY requirements.txt /tmp/
+# #RUN  pip3 install --requirement /tmp/requirements.txt
+# RUN cat /tmp/requirements.txt | sed -e '/^\s*#.*$/d' -e '/^\s*$/d' | xargs -n 1 pip install
 
-#ENV PATH /opt/conda/envs/base/bin:$PATH
-#COPY requirements.yml /tmp/
-#RUN conda env update –f /tmp/environment.yml –n base
 
 
-RUN chown -R gitpod:gitpod /home/gitpod/.cache \
+
+#RUN chown -R gitpod:gitpod /home/gitpod/.cache \
     && chmod -R 777 /home/gitpod/.cache
 
 #Install Python Packages
-COPY requirements.txt /tmp/
-#RUN  pip3 install --requirement /tmp/requirements.txt
-RUN cat /tmp/requirements.txt | sed -e '/^\s*#.*$/d' -e '/^\s*$/d' | xargs -n 1 pip3 install
+# COPY requirements.txt /tmp/
+# #RUN  pip3 install --requirement /tmp/requirements.txt
+# RUN cat /tmp/requirements.txt | sed -e '/^\s*#.*$/d' -e '/^\s*$/d' | xargs -n 1 pip3 install
 
 ### Node.js ###
 ARG NODE_VERSION=10.16.3
