@@ -146,9 +146,11 @@ RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86
     ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
     echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \
     echo "conda activate base" >> ~/.bashrc 
-ENV PATH /opt/conda/envs/base/bin:$PATH
-COPY requirements.yml /tmp/
-RUN conda env update –f /tmp/environment.yml –n base
+    
+RUN /bin/bash -c "source ~/.bashrc"
+#ENV PATH /opt/conda/envs/base/bin:$PATH
+#COPY requirements.yml /tmp/
+#RUN conda env update –f /tmp/environment.yml –n base
 
 RUN conda install --quiet --yes \
     'beautifulsoup4=4.8.*' \
