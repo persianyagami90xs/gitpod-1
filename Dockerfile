@@ -181,14 +181,13 @@ RUN mkdir /home/rstudio/.conda
 #      dash \
 #      pyodbc \
 #     && conda clean -afy
-# #Install Python Packages
-# COPY requirements.txt /tmp/
+# #Install Python Packages#/
 # #RUN  pip3 install --requirement /tmp/requirements.txt
 # RUN cat /tmp/requirements.txt | sed -e '/^\s*#.*$/d' -e '/^\s*$/d' | xargs -n 1 pip install
 
 
 #RUN chown -R gitpod:gitpod /home/gitpod/.cache \
-    && chmod -R 777 /home/gitpod/.cache
+#    && chmod -R 777 /home/gitpod/.cache
 
 #Install Python Packages
 # COPY requirements.txt /tmp/
