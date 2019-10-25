@@ -139,6 +139,7 @@ RUN chown -R gitpod:gitpod /home/gitpod/.config \
 RUN mkdir /home/rstudio/.conda
 
 FROM continuumio/miniconda3:4.6.14
+RUN conda config --append channels conda-forge
 RUN conda install --yes --freeze-installed \
     nomkl \
     jupyterlab \
