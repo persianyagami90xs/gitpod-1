@@ -13,7 +13,6 @@ tasks:
            echo "Starting .gitpod.yml installation" &&
            pyenv global 3.7.4 &&
            chmod +x envconfig.sh &&
-           bash envconfig.sh &&
            echo "Ending .gitpod.yml installation"  &>>   /workspace/gitpod/logs/gitpod-install-log.txt
 vscode:
   extensions:
