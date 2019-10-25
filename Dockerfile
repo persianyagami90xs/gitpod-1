@@ -187,8 +187,6 @@ RUN mkdir /home/rstudio/.conda
 # RUN cat /tmp/requirements.txt | sed -e '/^\s*#.*$/d' -e '/^\s*$/d' | xargs -n 1 pip install
 
 
-
-
 #RUN chown -R gitpod:gitpod /home/gitpod/.cache \
     && chmod -R 777 /home/gitpod/.cache
 
