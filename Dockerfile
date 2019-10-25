@@ -19,4 +19,4 @@ RUN conda install --yes --freeze-installed \
 COPY requirements.txt /tmp/
 #RUN  pip3 install --requirement /tmp/requirements.txt
 RUN cat /tmp/requirements.txt | sed -e '/^\s*#.*$/d' -e '/^\s*$/d' | xargs -n 1 pip install
-CMD [ "/bin/bash" ]
+CMD ["/init"]
