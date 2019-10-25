@@ -17,30 +17,6 @@ USER $NB_UID
 # Install Python 3 packages
 RUN conda install --quiet --yes \
     'beautifulsoup4=4.8.*' \
-    'conda-forge::blas=*=openblas' \
-    'bokeh=1.3*' \
-    'cloudpickle=1.2*' \
-    'cython=0.29*' \
-    'dask=2.2.*' \
-    'dill=0.3*' \
-    'h5py=2.9*' \
-    'hdf5=1.10*' \
-    'ipywidgets=7.5*' \
-    'matplotlib-base=3.1.*' \
-    'numba=0.45*' \
-    'numexpr=2.6*' \
-    'pandas=0.25*' \
-    'patsy=0.5*' \
-    'protobuf=3.9.*' \
-    'scikit-image=0.15*' \
-    'scikit-learn=0.21*' \
-    'scipy=1.3*' \
-    'seaborn=0.9*' \
-    'sqlalchemy=1.3*' \
-    'statsmodels=0.10*' \
-    'sympy=1.4*' \
-    'vincent=0.4.*' \
-    'xlrd' \
     && \
     conda clean --all -f -y && \
     # Activate ipywidgets extension in the environment that runs the notebook server
