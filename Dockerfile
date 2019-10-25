@@ -6,6 +6,8 @@ ENV PATH /opt/conda/envs/env/bin:$PATH
 RUN conda config --append channels conda-forge
 RUN conda install --yes --freeze-installed \
      glances \
+     jupyterlab \
+     beakerx \
     && conda clean -afy 
 #Install Python Packages
 COPY requirements.txt /tmp/
