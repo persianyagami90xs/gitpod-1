@@ -13,11 +13,9 @@ RUN conda install --yes --freeze-installed \
     util-linux \
     openblas \
     xeus-cling \ 
-    xeus-python \
     rx \
     cassandra-driver \
     keras \
-    gdal \
     dask \
     numpy \
     pandas \
