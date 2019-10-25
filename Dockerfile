@@ -1,9 +1,10 @@
-FROM continuumio/miniconda3:4.7.12
-SHELL [ "/bin/bash", "-c"]
+FROM continuumio/miniconda3
+ENTRYPOINT [ “/bin/bash”, “-c” ]
 RUN conda create -n arcw python=3.6
 RUN echo "conda activate arcw" > ~/.bashrc
 ENV PATH /opt/conda/envs/env/bin:$PATH
 RUN conda config --append channels conda-forge
+RUN [ “conda”, “activate”, “arcw” ]
 RUN conda install --yes --freeze-installed \
      glances \
     && conda clean -afy 
@@ -11,3 +12,4 @@ RUN conda install --yes --freeze-installed \
 COPY requirements.txt /tmp/
 #RUN  pip3 install --requirement /tmp/requirements.txt
 RUN cat /tmp/requirements.txt | sed -e '/^\s*#.*$/d' -e '/^\s*$/d' | xargs -n 1 pip install
+RUN [ “/bin/bash”, “-c”, “conda activate arcw” ]
