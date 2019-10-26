@@ -9,6 +9,7 @@ echo Initializing...
 # source ~/.bashrc
 
 # Get github repos
+cd /workspace
 git clone https://github.com/mtvu/write.git
 git clone https://github.com/mtvu/infra.git
 git clone https://github.com/mtvu/notebooks.git
