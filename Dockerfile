@@ -135,7 +135,7 @@ RUN mkdir /home/gitpod/.config
 RUN chown -R gitpod:gitpod /home/gitpod/.config \
     && chmod -R 777 /home/gitpod/.config
 
-RUN mkdir -p /workspace/conda
+#RUN mkdir -p /workspace/conda
 
 RUN mkdir -p /workspace/gitpod/data \
     && chown -R gitpod:gitpod /workspace/gitpod/data
@@ -145,13 +145,13 @@ VOLUME /workspace/gitpod/data
 RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh && \
     /bin/bash ~/miniconda.sh -b -p /workspace/conda && \
     rm ~/miniconda.sh && \
-    ln -s /workspace/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
     echo "export PATH=/workspace/conda/bin:$PATH" >> ~/.bashrc && \
     echo "/workspace/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \
     echo "SHELL=/bin/bash" >> ~/.bashrc && \
     echo "conda init bash" >> ~/.bashrc && \
     echo "conda activate base" >> ~/.bashrc
 
+#ln -s /workspace/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
 
 # Install util tools.
 # Install conda
