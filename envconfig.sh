@@ -15,6 +15,16 @@ git clone https://github.com/mtvu/notebooks.git
 git clone https://github.com/mtvu/config
 
 
+wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh && \
+/bin/bash ~/miniconda.sh -b -p /workspace/notebooks/conda && \
+rm ~/miniconda.sh && \
+ln -s /workspace/notebooks/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
+echo "export PATH=/workspace/notebooks/conda/bin:$PATH" >> ~/.bashrc && \
+echo "/workspace/notebooks/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \
+echo "SHELL=/bin/bash" >> ~/.bashrc && \
+echo "conda init bash" >> ~/.bashrc && \
+echo "conda activate base" >> ~/.bashrc
+
 #Install utils
 cd /home/gitpod &&
 wget https://github.com/gdrive-org/gdrive/releases/download/2.1.0/gdrive-linux-x64 &&
