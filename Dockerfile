@@ -135,48 +135,19 @@ RUN mkdir /home/gitpod/.config
 RUN chown -R gitpod:gitpod /home/gitpod/.config \
     && chmod -R 777 /home/gitpod/.config
 
-#RUN mkdir -p /workspace/conda
-
-RUN mkdir -p /workspace/gitpod/data \
-    && chown -R gitpod:gitpod /workspace/gitpod/data
-
-VOLUME /workspace/gitpod/data
+RUN mkdir /home/gitpod/.conda
 # Install conda
 RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh && \
-    /bin/bash ~/miniconda.sh -b -p /workspace/conda && \
+    /bin/bash ~/miniconda.sh -b -p /opt/conda && \
     rm ~/miniconda.sh && \
-    echo "export PATH=/workspace/conda/bin:$PATH" >> ~/.bashrc && \
-    echo "/workspace/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \
-    echo "SHELL=/bin/bash" >> ~/.bashrc && \
-    echo "conda init bash" >> ~/.bashrc && \
+    ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
+    echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \
     echo "conda activate base" >> ~/.bashrc
-
-#ln -s /workspace/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
-
-# Install util tools.
-# Install conda
-#RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh && \
-#    /bin/bash ~/miniconda.sh -b -p /opt/conda && \
-#    rm ~/miniconda.sh && \
-#    ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
-#    echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \
-#    echo "conda activate base" >> ~/.bashrc
-
-# RUN conda config --append channels conda-forge
-# RUN conda install --yes --freeze-installed \
-#      glances \
-#      jupyterlab \
-#      beakerx \
-#      xeus-cling \
-#      dask \
-#      numpy \
-#      pandas \
-#      dash \
-#      pyodbc \
-#     && conda clean -afy
-# #Install Python Packages#/
-# #RUN  pip3 install --requirement /tmp/requirements.txt
-# RUN cat /tmp/requirements.txt | sed -e '/^\s*#.*$/d' -e '/^\s*$/d' | xargs -n 1 pip install
+    
+RUN chown -R gitpod:gitpod /opt/conda \
+    && chmod -R 777 /opt/conda \
+    && chown -R gitpod:gitpod /home/gitpod/.conda \
+    && chmod -R 777 /home/gitpod/.conda
 
 
 #RUN chown -R gitpod:gitpod /home/gitpod/.cache \
