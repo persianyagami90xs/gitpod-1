@@ -8,6 +8,22 @@ echo Initializing...
 # export PATH=/opt/conda/envs/env/bin:$PATH &&
 # source ~/.bashrc
 
+
+#conda update -n base -c defaults conda -y
+mkdir -p /workspace/conda
+mkdir -p /workspace/data
+conda create --prefix /workspace/conda/arcw python=3.6 &&
+echo "conda activate /workspace/conda/arcw" > ~/.bashrc &&
+export PATH=/workspace/conda/arcw/bin:$PATH &&
+source ~/.bashrc
+export SHELL=/bin/bash
+
+/opt/conda/bin/conda init bash
+chmod 777 /workspace/data/appcfg/rclone.conf
+export RCLONE_CONFIG=/workspace/data/appcfg/rclone.conf
+export PATH=/workspace/data/app:$PATH
+
+
 # Get github repos
 cd /workspace
 git clone https://github.com/mtvu/write.git
@@ -35,7 +51,6 @@ echo "alias gd=/home/gitpod/gd" >> ~/.bashrc &&
 echo "alias ll="ls -lart" >> ~/.bashrc
 
 #Install archivebox
-
 
 #Install conda packages
 conda install -y -c conda-forge glances
@@ -74,5 +89,7 @@ Rscript -e 'IRkernel::installspec()'
 
 #Notes
 #To run jupyter lab : jupyter lab --ip=0.0.0.0 --allow-root
+
+#/usr/lib/rstudio-server/bin/rstudio-server start
 #rstudio-server start
 echo Done...
