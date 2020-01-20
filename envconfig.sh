@@ -93,3 +93,6 @@ Rscript -e 'IRkernel::installspec()'
 #/usr/lib/rstudio-server/bin/rstudio-server start
 #rstudio-server start
 echo Done...
+
+#Create soft link
+ln -fs /workspace/notebooks /workspace/gitpod/notebooks
