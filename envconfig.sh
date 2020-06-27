@@ -96,3 +96,16 @@ echo Done...
 
 #Create soft link
 ln -fs /workspace/notebooks /workspace/gitpod/notebooks
+
+
+#Install rclone
+curl -O https://downloads.rclone.org/rclone-current-linux-amd64.zip
+unzip rclone-current-linux-amd64.zip
+cd rclone-*-linux-amd64
+
+sudo cp rclone /usr/bin/
+sudo chown root:root /usr/bin/rclone
+sudo chmod 755 /usr/bin/rclone
+
+vi /home/gitpod/.config/rclone/rclone.conf
+./rclone sync -P /workspace/gitpod.tar tuanmanh1-GDRIVE2:upload
