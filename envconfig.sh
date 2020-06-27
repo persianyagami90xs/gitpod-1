@@ -108,4 +108,4 @@ sudo chown root:root /usr/bin/rclone
 sudo chmod 755 /usr/bin/rclone
 
 vi /home/gitpod/.config/rclone/rclone.conf
-./rclone sync -P /workspace/gitpod.tar tuanmanh1-GDRIVE2:upload
+./rclone sync -P 1drive-a16706:mirror gdrive-musesoft:landing
